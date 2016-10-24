@@ -1,0 +1,81 @@
+.custom-check {
+  width: 214px;
+  height: 30px;
+  border-radius: 5px;
+  margin-bottom: 0;
+  border: 3px solid #e5e5e5;
+  background: #f5f5f5;
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.custom-check input {
+  display: none;
+}
+.custom-check i {
+  width: 107px;
+  height: 26px;
+  border-radius: 0;
+  content: " ";
+  position: absolute;
+  left: 102px;
+  top: -1px;
+  border: 2px solid #b9b9b9;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  background: #ececec;
+  /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover, #ececec 0%, #c8c8c8 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #ececec), color-stop(100%, #c8c8c8));
+  /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover, #ececec 0%, #c8c8c8 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover, #ececec 0%, #c8c8c8 100%);
+  /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover, #ececec 0%, #c8c8c8 100%);
+  /* IE10+ */
+  background: radial-gradient(ellipse at center, #ececec 0%, #c8c8c8 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ececec', endColorstr='#c8c8c8', GradientType=1);
+  /* IE6-9 fallback on horizontal gradient */
+}
+.custom-check input:checked + i {
+  left: -2px;
+}
+.custom-check input + i + span {
+  display: block;
+}
+.custom-check input + i + span:after {
+  display: block;
+  padding-left: 11px;
+  margin-top: 0;
+  height: 25px;
+  line-height: 25px;
+  content: "Login";
+  background: rgba(95, 203, 110, 0.6);
+  color: #3a8f44;
+  font-size: 12.5px;
+  text-align: left;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.custom-check input:checked + i + span:after {
+  content: "Registration";
+  background: rgba(103, 204, 255, 0.6);
+  color: #4f97c1;
+  text-align: right;
+  padding-right: 10px;
+}

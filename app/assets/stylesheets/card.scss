@@ -1,0 +1,28 @@
+html {
+  background-image: image-url("bg1.jpg");
+}
+
+#cards {
+  margin: 5%;
+}
+
+.card {
+  width: 95%;
+  min-height: 300px;
+  margin-bottom: 25px;
+  background-color: rgb(122, 207, 171);
+
+  -webkit-box-shadow: 3px 5px 3px 0 rgba(0,0,0,0.5);
+  -moz-box-shadow: 3px 5px 3px 0 rgba(0,0,0,0.5);
+  box-shadow: 3px 5px 3px 0 rgba(0,0,0,0.5);
+
+  .device-name {
+    display: inline-block;
+    font-size: 20px;
+    padding: 10px;
+    min-width: 40%;
+
+    -webkit-box-shadow: 0 0 6px 2px rgba(0,0,0,0.5) inset;
+    box-shadow: 0 0 6px 2px rgba(0,0,0,0.5) inset;
+  }
+}

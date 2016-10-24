@@ -1,0 +1,1 @@
+10.times { Device.create(name: Faker::Internet.user_name, user_id: 1, type_name: 'home_edition') }
