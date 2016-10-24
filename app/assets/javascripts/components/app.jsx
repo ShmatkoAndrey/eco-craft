@@ -17,10 +17,13 @@ var Header = React.createClass({
             }.bind(this)
         });
     },
+    modal: function () { return this.refs.modal; },
+    popup: function () { this.refs.modal.open("Новое стройство", 0); },
     render() {
         return (
             <div className = "header ">
                 <div className = "header-info">
+                    <a onClick={this.popup} className="btn btn-primary btn-new-device"> + </a> <Modal ref="modal" />
                     <div className="header-email" >{ this.props.current_user.email } </div>
                     <div className="header-exit" onClick = { this.signOut } > LogOut </div>
                 </div>

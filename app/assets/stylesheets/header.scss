@@ -30,3 +30,16 @@
     }
   }
 }
+
+.btn-new-device {
+  margin-right: 10px;
+  width: 35px !important;
+  height: 35px !important;
+  padding: 5px !important;
+}
+
+.modal-dialog{
+  color: black;
+  z-index: 1040; //Кто вообще для backdrop в bootstrap поставил индекс 1039 ?_?
+}
+
