@@ -3,7 +3,7 @@ var App = React.createClass({
         return (
             <div>
                 <Header current_user = { this.props.current_user } changeCurrentUser = { () => { this.props.changeCurrentUser(null) } } />
-                <Cards />
+                <Cards current_user = {this.props.current_user} />
             </div>
         )
     }
@@ -25,7 +25,7 @@ var Header = React.createClass({
                     <div className="header-exit" onClick = { this.signOut } > LogOut </div>
                 </div>
             </div>
-            )
+        )
     }
 });
 
