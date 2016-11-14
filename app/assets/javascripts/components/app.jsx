@@ -68,10 +68,43 @@ var Cards = React.createClass({
 });
 
 var Card = React.createClass({
+    getInitialState() {
+        this.webSocket();
+        return { plant: Object() }
+    },
+    componentDidMount: function() {
+        $.ajax({
+            url: '/plants', type: 'GET', async: false,
+            data: { key: this.props.device.key_device },
+            success: function(data) {
+                this.setState({ plant: data.plant });
+            }.bind(this)
+        });
+    },
+    test() {
+        $.ajax({
+            url: '/plants/1', type: 'PATCH', async: false,
+            data: { key: this.props.device.key_device, plant: { temperature: this.state.plant.temperature + 1, humidity: this.state.plant.humidity + 1 } },
+            success: function(data) {
+            }.bind(this)
+        });
+    },
+    webSocket: function() {
+        var faye = new Faye.Client('http://socketmiamitalks.herokuapp.com/faye');
+
+        faye.subscribe("/eco-craft/" + this.props.device.key_device + "/update", function(data) {
+            this.setState( { plant: data.plant } );
+        }.bind(this));
+    },
     render() {
         return(
             <div className = "card">
                 <div className="device-name"> { this.props.device.name } </div>
+                <div className="device-key"> { this.props.device.key_device } </div>
+                <div className="device-plant">
+                    { this.state.plant.id } | { this.state.plant.temperature } | { this.state.plant.humidity }
+                </div>
+                <div className = "btn btn-warning" onClick = { this.test } > 124 </div>
             </div>
         )
     }

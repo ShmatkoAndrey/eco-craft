@@ -11,4 +11,6 @@ Rails.application.routes.draw do
 
   resources :devices, only: [:index, :create, :update, :destroy]
 
+  resources :plants, only: [:index, :create, :update, :destroy]
+
 end

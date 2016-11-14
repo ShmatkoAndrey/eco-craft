@@ -1,4 +1,4 @@
-class DevicesController < ActionController::Base
+class DevicesController < ApplicationController
 
   def index
     render json: { devices: current_user.devices }

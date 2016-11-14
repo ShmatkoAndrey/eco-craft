@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  device_id: 1
+  type_plant: MyString
+  state_device: MyString
+  state_work: 1
+  state_sleep: 1
+  next_time: 2016-11-14 13:52:12
+  next_time_type: 1
+
+two:
+  device_id: 1
+  type_plant: MyString
+  state_device: MyString
+  state_work: 1
+  state_sleep: 1
+  next_time: 2016-11-14 13:52:12
+  next_time_type: 1

@@ -10,14 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161021144257) do
+ActiveRecord::Schema.define(version: 20161114115212) do
 
   create_table "devices", force: :cascade do |t|
-    t.string   "name"
     t.integer  "user_id"
+    t.string   "name"
     t.integer  "type_name"
+    t.string   "key_device"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "plants", force: :cascade do |t|
+    t.integer  "device_id"
+    t.string   "type_plant"
+    t.string   "state_device"
+    t.integer  "state_work"
+    t.integer  "state_sleep"
+    t.datetime "next_time"
+    t.integer  "next_time_type"
+    t.integer  "temperature"
+    t.integer  "humidity"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "users", force: :cascade do |t|
