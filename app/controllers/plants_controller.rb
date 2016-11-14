@@ -1,4 +1,5 @@
 class PlantsController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   def index
     @plant = Device.where(key_device: params[:key]).first.plants.first
