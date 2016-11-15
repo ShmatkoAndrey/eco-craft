@@ -33,3 +33,6 @@ gem 'faker'
 gem 'react-rails'
 
 gem 'devise'
+
+
+gem 'rack-cors'
