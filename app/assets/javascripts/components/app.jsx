@@ -90,7 +90,7 @@ var Card = React.createClass({
         });
     },
     webSocket: function() {
-        var faye = new Faye.Client('ws://socketmiamitalks.herokuapp.com/faye');
+        var faye = new Faye.Client('https://socketmiamitalks.herokuapp.com/faye');
 
         faye.subscribe("/eco-craft/" + this.props.device.key_device + "/update", function(data) {
             this.setState( { plant: data.plant } );
