@@ -84,7 +84,7 @@ var Card = React.createClass({
     test() {
         $.ajax({
             url: '/plants/1', type: 'PATCH', async: false,
-            data: { key: this.props.device.key_device, plant: { temperature: this.state.plant.temperature + 1, humidity: this.state.plant.humidity + 1 } },
+            data: { key: this.props.device.key_device, temperature: this.state.plant.temperature + 1, humidity: this.state.plant.humidity + 1 },
             success: function(data) {
             }.bind(this)
         });
