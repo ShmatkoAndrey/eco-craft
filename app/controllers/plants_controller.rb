@@ -4,7 +4,11 @@ class PlantsController < ApplicationController
   def index
     if params[:key]
       @plant = Device.where(key_device: params[:key]).first.plants.first
-      render json: { plant: @plant }
+      if params[:arduino] == 'true'
+        render json: { status: 'ok' }
+      else
+        render json: { plant: @plant }
+      end
     else
       render json: { error: 'no key device!' }
     end

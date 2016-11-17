@@ -102,7 +102,7 @@ var Card = React.createClass({
                 <div className="device-name"> { this.props.device.name } </div>
                 <div className="device-key"> { this.props.device.key_device } </div>
                 <div className="device-plant">
-                    { this.state.plant.id } | { this.state.plant.temperature } | { this.state.plant.humidity }
+                    { this.state.plant.temperature }°C | { this.state.plant.humidity }%
                 </div>
                 <div className = "btn btn-warning" onClick = { this.test } > 124 </div>
             </div>
