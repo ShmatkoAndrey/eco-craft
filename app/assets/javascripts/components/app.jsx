@@ -70,7 +70,7 @@ var Cards = React.createClass({
 var Card = React.createClass({
     getInitialState() {
         this.webSocket();
-        return { plant: Object() }
+        return { plant: Object(), timer: 0 }
     },
     componentDidMount: function() {
         $.ajax({
@@ -80,6 +80,8 @@ var Card = React.createClass({
                 this.setState({ plant: data.plant });
             }.bind(this)
         });
+
+        this.timeInterval();
     },
     webSocket: function() {
         var faye = new Faye.Client('https://socketmiamitalks.herokuapp.com/faye');
@@ -87,6 +89,15 @@ var Card = React.createClass({
         faye.subscribe("/eco-craft/" + this.props.device.key_device + "/update", function(data) {
             this.setState( { plant: data.plant } );
         }.bind(this));
+    },
+    timeInterval() {
+        setInterval(
+            function() {
+                var now = new Date();
+                now.setHours(now.getHours() + 1);
+                var timer = parseInt(this.state.plant.next_time) - parseInt(now.getTime().toString().substring(0, 10));
+                this.setState({ timer: timer });
+            }.bind(this), 500)
     },
     render() {
         return(
@@ -99,7 +110,8 @@ var Card = React.createClass({
                         <tr><td>Humidity:</td><td> { this.state.plant.humidity }%</td></tr>
                         <tr><td>Status device:</td><td> { this.state.plant.state_device }</td><td> </td></tr>
                         <tr><td>Status type:</td><td> { this.state.plant.state_type }</td><td> </td></tr>
-                        <tr><td>Next time:</td><td> { this.state.plant.next_time }</td><td> </td></tr>
+                        <tr><td>Next time:</td><td> </td><td> { parseInt(this.state.timer/60%60) < 10 ? "0" + parseInt(this.state.timer/60%60) : parseInt(this.state.timer/60%60) } : 
+                            { this.state.timer%60 < 10 ? "0" + this.state.timer%60 : this.state.timer%60 } </td></tr>
                         <tr><td>Next type:</td><td> { this.state.plant.next_time_type }</td><td> </td></tr>
                     </table>
                 </div>
