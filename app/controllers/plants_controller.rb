@@ -11,8 +11,8 @@ class PlantsController < ApplicationController
 
   end
 
-  def update
-    if params[:key]
+  def update # Plant.last.device.update(key_device: "158911250955926802345410606796208659833")
+  if params[:key]
       @plant = Device.where(key_device: params[:key]).first.plants.first
       @plant.update(
           temperature: params[:temperature],

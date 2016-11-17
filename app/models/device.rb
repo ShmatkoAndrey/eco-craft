@@ -1,6 +1,6 @@
 class Device < ApplicationRecord
 
-  after_save :generate_key
+  after_create :generate_key
 
   belongs_to :user
 
