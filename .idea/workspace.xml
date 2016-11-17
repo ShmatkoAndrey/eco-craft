@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62f02c47-ff2d-4c5c-8f49-c04dfb9d5b6f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/plants_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/plants_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20161114115212_create_plants.rb" afterPath="$PROJECT_DIR$/db/migrate/20161114115212_create_plants.rb" />
     </list>
     <ignored path="eco_craft.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,10 +38,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plants_controller.rb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="20161114115212_create_plants.rb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/db/migrate/20161114115212_create_plants.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.12870276">
+              <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plants_controller.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/plants_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.29417774">
+            <state vertical-scroll-proportion="0.0">
               <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
               <folding />
             </state>
@@ -103,9 +112,9 @@
         <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/config/application.rb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/card.scss" />
-        <option value="$PROJECT_DIR$/db/migrate/20161114115212_create_plants.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/components/app.jsx" />
         <option value="$PROJECT_DIR$/app/controllers/plants_controller.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20161114115212_create_plants.rb" />
       </list>
     </option>
   </component>
@@ -844,14 +853,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20161114115212_create_plants.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11031665">
-          <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/components/app.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -870,8 +871,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/plants_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29417774">
+        <state vertical-scroll-proportion="0.0">
           <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20161114115212_create_plants.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12870276">
+          <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
           <folding />
         </state>
       </provider>
