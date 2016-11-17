@@ -4,11 +4,7 @@ class PlantsController < ApplicationController
   def index
     if params[:key]
       @plant = Device.where(key_device: params[:key]).first.plants.first
-      if params[:arduino] == 'true'
-        render json: { status: 'ok' }
-      else
-        render json: { plant: @plant }
-      end
+      render json: { plant: @plant }
     else
       render json: { error: 'no key device!' }
     end
@@ -21,9 +17,16 @@ class PlantsController < ApplicationController
       @plant.update(
           temperature: params[:temperature],
           humidity: params[:humidity],
+          state_type: params[:state_type],
+          next_time: params[:next_time],
+          next_time_type: params[:next_time_type]
       )
       app_broadcast "/eco-craft/#{ @plant.device.key_device }/update", { plant: @plant }
-      render json: { plant: @plant }
+      if params[:arduino] == 'true'
+        render json: { status: 'ok' }
+      else
+        render json: { plant: @plant }
+      end
     else
       render json: { error: 'no key device!' }
     end
