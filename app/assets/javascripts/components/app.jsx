@@ -81,14 +81,6 @@ var Card = React.createClass({
             }.bind(this)
         });
     },
-    test() {
-        $.ajax({
-            url: '/plants/1', type: 'PATCH', async: false,
-            data: { key: this.props.device.key_device, temperature: this.state.plant.temperature + 1, humidity: this.state.plant.humidity + 1 },
-            success: function(data) {
-            }.bind(this)
-        });
-    },
     webSocket: function() {
         var faye = new Faye.Client('https://socketmiamitalks.herokuapp.com/faye');
 
@@ -100,11 +92,17 @@ var Card = React.createClass({
         return(
             <div className = "card">
                 <div className="device-name"> { this.props.device.name } </div>
-                <div className="device-key"> { this.props.device.key_device } </div>
-                <div className="device-plant">
-                    { this.state.plant.temperature }°C | { this.state.plant.humidity }%
+                <div className="device-key"> Key: { this.props.device.key_device } </div>
+                <div className="device-info">
+                    <table>
+                        <tr><td>Temperature:</td><td> { this.state.plant.temperature }°C</td></tr>
+                        <tr><td>Humidity:</td><td> { this.state.plant.humidity }%</td></tr>
+                        <tr><td>Status device:</td><td> { this.state.plant.state_device }</td><td> </td></tr>
+                        <tr><td>Status type:</td><td> { this.state.plant.state_type }</td><td> </td></tr>
+                        <tr><td>Next time:</td><td> { this.state.plant.next_time }</td><td> </td></tr>
+                        <tr><td>Next type:</td><td> { this.state.plant.next_time_type }</td><td> </td></tr>
+                    </table>
                 </div>
-                <div className = "btn btn-warning" onClick = { this.test } > 124 </div>
             </div>
         )
     }
