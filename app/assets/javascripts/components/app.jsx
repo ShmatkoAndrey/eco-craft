@@ -91,12 +91,60 @@ var Card = React.createClass({
         }.bind(this));
     },
     timeInterval() {
+        var tm =  new Date(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        tm.setHours(tm.getHours() + 1); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        tm.setMinutes(tm.getMinutes() + 10); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        var color = "red";
+        var tmr = this.refs.timer,
+            ctx = tmr.getContext('2d');
+        ctx.fillStyle = color;
+        var rad = 60;
+        //ctx.fillRect(0, 0, tmr.width, tmr.height);
+
         setInterval(
             function() {
                 var now = new Date();
                 now.setHours(now.getHours() + 1);
-                var timer = parseInt(this.state.plant.next_time) - parseInt(now.getTime().toString().substring(0, 10));
+                //var timer = parseInt(this.state.plant.next_time) - parseInt(now.getTime().toString().substring(0, 10));
+                var timer = parseInt(tm.getTime().toString().substring(0, 10)) -  parseInt(now.getTime().toString().substring(0, 10)); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 this.setState({ timer: timer });
+
+                var p = 2 * timer/600; // 60 - нужное время работы/отдыха
+                console.log(p);
+                ctx.clearRect(0,0,200,200);
+                ctx.beginPath();
+                ctx.arc(100, 100, rad, 0, p * Math.PI, false);
+                ctx.lineWidth = 20;
+                ctx.strokeStyle = 'green';
+                ctx.stroke();
+                ctx.fillStyle = "#000";
+                ctx.font = "italic 20pt Arial";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                var str = parseInt(this.state.timer/60%60) < 10 ? "0" + parseInt(this.state.timer/60%60) : parseInt(this.state.timer/60%60);
+                str += ":" ;
+                str += this.state.timer%60 < 10 ? "0" + this.state.timer%60 : this.state.timer%60;
+                ctx.fillText(str, 100, 100);
+
+
+
+                // { parseInt(this.state.timer/60%60) < 10 ? "0" + parseInt(this.state.timer/60%60) : parseInt(this.state.timer/60%60) } :
+               // { this.state.timer%60 < 10 ? "0" + this.state.timer%60 : this.state.timer%60 }
+
+              /*  var tclear = tmr.width,
+                    time_interval = (tmr.width / timer) / (1000 / interval);
+                var timer_interval = setInterval(function () {
+                    ctx.clearRect(tclear, 0, tmr.width, tmr.height);
+                    tclear -= time_interval;
+                    if (tclear <= 0) {
+                        clearInterval(timer_interval);
+                        ctx.clearRect(0, 0, tmr.width, tmr.height);
+                    }
+                }, interval);*/
+
+
+
             }.bind(this), 500)
     },
     render() {
@@ -105,13 +153,14 @@ var Card = React.createClass({
                 <div className="device-name"> { this.props.device.name } </div>
                 <div className="device-key"> Key: { this.props.device.key_device } </div>
                 <div className="device-info">
-                    <table>
-                        <tr><td>Temperature:</td><td> { this.state.plant.temperature }°C</td></tr>
-                        <tr><td>Humidity:</td><td> { this.state.plant.humidity }%</td></tr>
+                    <div className = "col-md-6 timer" >
+                        <canvas height='200' width='200' ref = "timer">  </canvas>
+                    </div>
+                    <table className = "col-md-6 devise-table">
+                        <tr><td>Temperature:</td><td> { this.state.plant.temperature }°C</td><td> </td></tr>
+                        <tr><td>Humidity:</td><td> { this.state.plant.humidity }%</td><td> </td></tr>
                         <tr><td>Status device:</td><td> { this.state.plant.state_device }</td><td> </td></tr>
                         <tr><td>Status type:</td><td> { this.state.plant.state_type }</td><td> </td></tr>
-                        <tr><td>Next time:</td><td> </td><td> { parseInt(this.state.timer/60%60) < 10 ? "0" + parseInt(this.state.timer/60%60) : parseInt(this.state.timer/60%60) } : 
-                            { this.state.timer%60 < 10 ? "0" + this.state.timer%60 : this.state.timer%60 } </td></tr>
                         <tr><td>Next type:</td><td> { this.state.plant.next_time_type }</td><td> </td></tr>
                     </table>
                 </div>
