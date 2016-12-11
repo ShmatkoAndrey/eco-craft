@@ -10,10 +10,25 @@
   -moz-box-shadow: 0px 5px 3px 0px rgba(0,0,0,0.5);
   box-shadow: 0px 5px 3px 0px rgba(0,0,0,0.5);
 
+  .header-logo {
+    margin: 10px;
+
+    font-size: 24px;
+    display: inline-block;
+    span {
+      font-size: 40px;
+    }
+  }
+
   .header-info {
-    float:right;
+    float: right;
     margin-top: 20px;
     margin-right: 10px;
+    display: inline-block;
+
+    span {
+      font-size: 24px;
+    }
 
     .header-email {
       display: inline-block;

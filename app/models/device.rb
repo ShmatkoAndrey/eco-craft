@@ -7,7 +7,7 @@ class Device < ApplicationRecord
   has_many :plants
 
   def generate_key
-    update_column(:key_device, Random.new_seed)
+    update_column(:key_device, Random.new_seed.to_s[0..9])
   end
 
 end

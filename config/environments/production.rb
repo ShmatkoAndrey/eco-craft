@@ -88,4 +88,7 @@ Rails.application.configure do
   config.assets.compile = true
   config.assets.digest = true
 
+  config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+  config.assets.precompile += %w( .svg .eot .woff .ttf )
+
 end

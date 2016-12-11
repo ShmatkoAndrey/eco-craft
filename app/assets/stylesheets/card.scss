@@ -1,9 +1,25 @@
+#cards-info {
+  margin: 10px;
+  width: auto;
+  min-height: 50px;
+  background-color: #4f97c1;
+  font-size: 34px;
+  padding: 10px;
+  #cards-info-cnt {
+    font-size: 30px;
+    margin: 5px;
+    display: inline-block;
+    float: right;
+  }
+}
+
 #cards {
-  margin: 5%;
+  padding: 10px 3%;
 }
 
 .card {
-  width: 95%;
+  width: 500px;
+  //width: 95%;
   min-height: 300px;
   margin-bottom: 25px;
   background-color: rgb(122, 207, 171);
@@ -18,19 +34,34 @@
   }
 }
 
+.table-info {
+  display: inline-block;
+  font-size: 18px;
+  position: relative;
+  top: -50px;
+  span {
+    font-size: 30px;
+  }
+}
+
 .device-name {
   display: inline-block;
-  font-size: 20px;
+  font-size: 24px;
   padding: 10px;
-  min-width: 40%;
   -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.5) inset;
   box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.5) inset;
+  width: 100%;
+
+  .icon-device{
+    font-size: 30px;
+  }
 }
 
 .device-key {
   display: inline-block;
   font-size: 14px;
   padding: 10px;
+  float: right;
 }
 
 .device-info {
@@ -42,5 +73,4 @@
 }
 
 .devise-table {
-  display: inline-block;
 }

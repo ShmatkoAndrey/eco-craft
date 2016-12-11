@@ -22,10 +22,11 @@ var Header = React.createClass({
     render() {
         return (
             <div className = "header ">
+                <div className="header-logo" ><span className = "icon-logo"> </span> EcoCraft </div>
                 <div className = "header-info">
                     <a onClick={this.popup} className="btn btn-primary btn-new-device"> + </a> <Modal ref="modal" />
-                    <div className="header-email" >{ this.props.current_user.email } </div>
-                    <div className="header-exit" onClick = { this.signOut } > LogOut </div>
+                    <div className="header-email" ><span className = "icon-user"> </span>{ this.props.current_user.email } </div>
+                    <div className="header-exit" onClick = { this.signOut } > <span className = "icon-exit"> </span></div>
                 </div>
             </div>
         )
@@ -54,14 +55,24 @@ var Cards = React.createClass({
         }.bind(this));
 
         return (
-            <div id = "cards" >
-                <div className="col-lg-6">
-                    { cardsNode1 }
+            <div>
+                <div id = "cards-info">
+                    Devices
+                    <div id = "cards-info-cnt">
+                        { this.state.devices.length }
+                        active device
+                    </div>
                 </div>
-                <div className="col-lg-6">
-                    { cardsNode2 }
-                </div>
+                <div id = "cards" >
+                    <div className="col-lg-5">
+                        { cardsNode1 }
+                    </div>
+                    <div className="col-lg-1"> </div>/
+                    <div className="col-lg-5">
+                        { cardsNode2 }
+                    </div>
 
+                </div>
             </div>
         )
     }
@@ -99,7 +110,7 @@ var Card = React.createClass({
         var tmr = this.refs.timer,
             ctx = tmr.getContext('2d');
         ctx.fillStyle = color;
-        var rad = 60;
+        var rad = 80;
         //ctx.fillRect(0, 0, tmr.width, tmr.height);
 
         setInterval(
@@ -111,11 +122,10 @@ var Card = React.createClass({
                 this.setState({ timer: timer });
 
                 var p = 2 * timer/600; // 60 - нужное время работы/отдыха
-                console.log(p);
                 ctx.clearRect(0,0,200,200);
                 ctx.beginPath();
                 ctx.arc(100, 100, rad, 0, p * Math.PI, false);
-                ctx.lineWidth = 20;
+                ctx.lineWidth = 15;
                 ctx.strokeStyle = 'green';
                 ctx.stroke();
                 ctx.fillStyle = "#000";
@@ -126,43 +136,31 @@ var Card = React.createClass({
                 str += ":" ;
                 str += this.state.timer%60 < 10 ? "0" + this.state.timer%60 : this.state.timer%60;
                 ctx.fillText(str, 100, 100);
-
-
-
-                // { parseInt(this.state.timer/60%60) < 10 ? "0" + parseInt(this.state.timer/60%60) : parseInt(this.state.timer/60%60) } :
-               // { this.state.timer%60 < 10 ? "0" + this.state.timer%60 : this.state.timer%60 }
-
-              /*  var tclear = tmr.width,
-                    time_interval = (tmr.width / timer) / (1000 / interval);
-                var timer_interval = setInterval(function () {
-                    ctx.clearRect(tclear, 0, tmr.width, tmr.height);
-                    tclear -= time_interval;
-                    if (tclear <= 0) {
-                        clearInterval(timer_interval);
-                        ctx.clearRect(0, 0, tmr.width, tmr.height);
-                    }
-                }, interval);*/
-
-
+                ctx.font = "20pt icomoon";
+                var str_status = this.state.plant.state_type == "Work" ?  String.fromCharCode("0xe906") : String.fromCharCode("0xe901") ;
+                ctx.fillText(str_status, 100, 60);
 
             }.bind(this), 500)
     },
     render() {
         return(
             <div className = "card">
-                <div className="device-name"> { this.props.device.name } </div>
-                <div className="device-key"> Key: { this.props.device.key_device } </div>
+                <div className="device-name">
+                    <span className = "icon-device"> </span>
+                    { this.props.device.name }
+                    <div className="device-key"> <span className = "icon-key"> </span> { this.props.device.key_device } </div>
+                </div>
                 <div className="device-info">
-                    <div className = "col-md-6 timer" >
+                    <div className = " timer" >
                         <canvas height='200' width='200' ref = "timer">  </canvas>
                     </div>
-                    <table className = "col-md-6 devise-table">
-                        <tr><td>Temperature:</td><td> { this.state.plant.temperature }°C</td><td> </td></tr>
-                        <tr><td>Humidity:</td><td> { this.state.plant.humidity }%</td><td> </td></tr>
-                        <tr><td>Status device:</td><td> { this.state.plant.state_device }</td><td> </td></tr>
-                        <tr><td>Status type:</td><td> { this.state.plant.state_type }</td><td> </td></tr>
-                        <tr><td>Next type:</td><td> { this.state.plant.next_time_type }</td><td> </td></tr>
-                    </table>
+                    <div className = "table-info">
+                        <table className = "devise-table">
+                            <tr><td>  </td><td>Status device:</td><td> { this.state.plant.state_device }</td><td> <span className = "icon-leaf"> </span> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>Temperature:</td><td> { this.state.plant.temperature }°C</td><td> </td></tr>
+                            <tr><td> <span className = "icon-humidity"> </span> </td><td>Humidity:</td><td> { this.state.plant.humidity }%</td><td> </td></tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         )
