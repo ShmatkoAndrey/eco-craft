@@ -98,6 +98,7 @@ var Card = React.createClass({
         var faye = new Faye.Client('https://socketmiamitalks.herokuapp.com/faye');
 
         faye.subscribe("/eco-craft/" + this.props.device.key_device + "/update", function(data) {
+            console.log(data.plant);
             this.setState( { plant: data.plant } );
         }.bind(this));
     },
