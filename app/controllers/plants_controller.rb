@@ -11,17 +11,18 @@ class PlantsController < ApplicationController
 
   end
 
-  def update
+  def update # 6689305197
   if params[:key]
       @plant = Device.where(key_device: params[:key]).first.plants.first
 
-      next_time = DateTime.now.to_i + ( params[:next_time].to_i - params[:date_time].to_i - 1 )
+      next_time = DateTime.now.to_i + ( params[:next_time].to_i - params[:date_time].to_i )
 
       @plant.update(
           temperature: params[:temperature],
           humidity: params[:humidity],
           state_type: params[:state_type],
           next_time: next_time,
+          server_time: DateTime.now.to_i,
           next_time_type: params[:next_time_type],
           period: params[:period]
       )
