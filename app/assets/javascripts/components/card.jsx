@@ -76,7 +76,8 @@ var Card = React.createClass({
 
         setInterval(
             function() {
-                var timer = parseInt(this.state.plant.next_time) - parseInt(this.state.plant.server_time);
+                var now = new Date();
+                var timer = parseInt(this.state.plant.next_time) - parseInt(now.getTime().toString().substring(0, 10));
                 var p = 2 * timer/this.state.plant.period;
                 ctx.clearRect(0,0,200,200);
                 ctx.beginPath();
