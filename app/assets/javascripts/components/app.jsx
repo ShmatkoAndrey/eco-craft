@@ -81,7 +81,7 @@ var Cards = React.createClass({
 var Card = React.createClass({
     getInitialState() {
         this.webSocket();
-        return { plant: Object(), timer: 0 }
+        return { plant: Object() }
     },
     componentDidMount: function() {
         $.ajax({
@@ -102,26 +102,20 @@ var Card = React.createClass({
         }.bind(this));
     },
     timeInterval() {
-        var tm =  new Date(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        tm.setHours(tm.getHours() + 1); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        tm.setMinutes(tm.getMinutes() + 10); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
         var color = "red";
         var tmr = this.refs.timer,
             ctx = tmr.getContext('2d');
         ctx.fillStyle = color;
         var rad = 80;
-        //ctx.fillRect(0, 0, tmr.width, tmr.height);
 
         setInterval(
             function() {
                 var now = new Date();
-                now.setHours(now.getHours() + 1);
-                //var timer = parseInt(this.state.plant.next_time) - parseInt(now.getTime().toString().substring(0, 10));
-                var timer = parseInt(tm.getTime().toString().substring(0, 10)) -  parseInt(now.getTime().toString().substring(0, 10)); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+               // now.setHours(now.getHours() + 1);
+                var timer = parseInt(this.state.plant.next_time) - parseInt(now.getTime().toString().substring(0, 10));
                 this.setState({ timer: timer });
 
-                var p = 2 * timer/600; // 60 - нужное время работы/отдыха
+                var p = 2 * timer/this.state.plant.period;
                 ctx.clearRect(0,0,200,200);
                 ctx.beginPath();
                 ctx.arc(100, 100, rad, 0, p * Math.PI, false);
@@ -132,9 +126,9 @@ var Card = React.createClass({
                 ctx.font = "italic 20pt Arial";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
-                var str = parseInt(this.state.timer/60%60) < 10 ? "0" + parseInt(this.state.timer/60%60) : parseInt(this.state.timer/60%60);
+                var str = parseInt(timer/60%60) < 10 ? "0" + parseInt(timer/60%60) : parseInt(timer/60%60);
                 str += ":" ;
-                str += this.state.timer%60 < 10 ? "0" + this.state.timer%60 : this.state.timer%60;
+                str += timer%60 < 10 ? "0" + timer%60 : timer%60;
                 ctx.fillText(str, 100, 100);
                 ctx.font = "20pt icomoon";
                 var str_status = this.state.plant.state_type == "Work" ?  String.fromCharCode("0xe906") : String.fromCharCode("0xe901") ;

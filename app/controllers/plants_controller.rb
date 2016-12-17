@@ -11,15 +11,19 @@ class PlantsController < ApplicationController
 
   end
 
-  def update # Plant.last.device.update(key_device: "158911250955926802345410606796208659833")
+  def update
   if params[:key]
       @plant = Device.where(key_device: params[:key]).first.plants.first
+
+      next_time = DateTime.now.to_i + ( params[:next_time] - params[:date_time] )
+
       @plant.update(
           temperature: params[:temperature],
           humidity: params[:humidity],
           state_type: params[:state_type],
-          next_time: params[:next_time],
-          next_time_type: params[:next_time_type]
+          next_time: next_time,
+          next_time_type: params[:next_time_type],
+          period: params[:period]
       )
       app_broadcast "/eco-craft/#{ @plant.device.key_device }/update", { plant: @plant }
       if params[:arduino] == 'true'

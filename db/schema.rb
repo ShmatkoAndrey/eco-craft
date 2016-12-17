@@ -23,11 +23,12 @@ ActiveRecord::Schema.define(version: 20161114115212) do
 
   create_table "plants", force: :cascade do |t|
     t.integer  "device_id"
-    t.string   "type_plant"
+    t.integer  "type_plant_id"
     t.string   "state_device"
     t.string   "state_type"
     t.string   "next_time"
     t.string   "next_time_type"
+    t.integer  "period"
     t.integer  "temperature"
     t.integer  "humidity"
     t.datetime "created_at",     null: false
