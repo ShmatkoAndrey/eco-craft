@@ -15,7 +15,7 @@ class PlantsController < ApplicationController
   if params[:key]
       @plant = Device.where(key_device: params[:key]).first.plants.first
 
-      next_time = DateTime.now.to_i + ( params[:next_time] - params[:date_time] )
+      next_time = DateTime.now.to_i + ( params[:next_time].to_i - params[:date_time].to_i )
 
       @plant.update(
           temperature: params[:temperature],
