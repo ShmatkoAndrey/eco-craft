@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20161114115212) do
     t.string   "next_time"
     t.string   "next_time_type"
     t.integer  "period"
+    t.integer  "server_time"
     t.integer  "temperature"
     t.integer  "humidity"
     t.datetime "created_at",     null: false

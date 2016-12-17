@@ -59,6 +59,8 @@ var Card = React.createClass({
 
         this.timeInterval();
     },
+    modal: function () { return this.refs.modal; },
+    popup: function () { this.refs.modal.open("Настройки", 1); },
     webSocket: function() {
         var faye = new Faye.Client('https://socketmiamitalks.herokuapp.com/faye');
 
@@ -118,6 +120,7 @@ var Card = React.createClass({
                             <tr><td> <span className = "icon-humidity"> </span> </td><td>Humidity:</td><td> { this.state.plant.humidity }%</td><td> </td></tr>
                         </table>
                     </div>
+                    <a onClick= { this.popup } className="btn btn-primary btn-settings-device"><span className = "icon-setings"> </span></a> <Modal ref="modal" action_title = "Сохранить" />
                 </div>
             </div>
         )
