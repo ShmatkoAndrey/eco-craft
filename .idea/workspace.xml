@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62f02c47-ff2d-4c5c-8f49-c04dfb9d5b6f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/components/card.jsx" afterPath="$PROJECT_DIR$/app/assets/javascripts/components/card.jsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/plants_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/plants_controller.rb" />
     </list>
     <ignored path="eco_craft.iws" />
@@ -54,7 +52,7 @@
         <entry file="file://$PROJECT_DIR$/app/controllers/plants_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.24616957">
-              <caret line="17" column="95" selection-start-line="17" selection-start-column="95" selection-end-line="17" selection-end-column="95" />
+              <caret line="17" column="91" selection-start-line="17" selection-start-column="91" selection-end-line="17" selection-end-column="91" />
               <folding />
             </state>
           </provider>
@@ -1023,7 +1021,7 @@
     <entry file="file://$PROJECT_DIR$/app/controllers/plants_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.24616957">
-          <caret line="17" column="95" selection-start-line="17" selection-start-column="95" selection-end-line="17" selection-end-column="95" />
+          <caret line="17" column="91" selection-start-line="17" selection-start-column="91" selection-end-line="17" selection-end-column="91" />
           <folding />
         </state>
       </provider>
