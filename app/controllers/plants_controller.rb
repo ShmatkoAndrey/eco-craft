@@ -27,7 +27,12 @@ class PlantsController < ApplicationController
       )
       app_broadcast "/eco-craft/#{ @plant.device.key_device }/update", { plant: @plant }
       if params[:arduino] == 'true'
-        render json: { status: 'ok' }
+        di = @plant.device.device_insts.last
+        if di.nil?
+          render json: { status: 'ok' }
+        else
+          render json: { status: 'ok', instructions: { per_sleep: di.per_sleep, per_work: di.per_work } }
+        end
       else
         render json: { plant: @plant }
       end

@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114115212) do
+ActiveRecord::Schema.define(version: 20161220154207) do
+
+  create_table "device_insts", force: :cascade do |t|
+    t.integer  "device_id"
+    t.integer  "per_sleep"
+    t.integer  "per_work"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "devices", force: :cascade do |t|
     t.integer  "user_id"

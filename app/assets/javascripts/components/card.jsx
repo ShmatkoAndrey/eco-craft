@@ -120,7 +120,8 @@ var Card = React.createClass({
                             <tr><td> <span className = "icon-humidity"> </span> </td><td>Humidity:</td><td> { this.state.plant.humidity }%</td><td> </td></tr>
                         </table>
                     </div>
-                    <a onClick= { this.popup } className="btn btn-primary btn-settings-device"><span className = "icon-setings"> </span></a> <Modal ref="modal" action_title = "Сохранить" />
+                    <a onClick= { this.popup } className="btn btn-primary btn-settings-device"><span className = "icon-setings"> </span></a>
+                    <Modal ref="modal" action_title = "Сохранить" device = { this.props.device }  />
                 </div>
             </div>
         )

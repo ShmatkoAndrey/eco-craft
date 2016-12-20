@@ -39,7 +39,7 @@ var Modal = React.createClass({
                         {title}
                         <div className="modal-body">
 
-                            { this.state.type_action == 0 ? <ModalCreate /> : <ModalUpdate />  }
+                            { this.state.type_action == 0 ? <ModalCreate /> : <ModalUpdate device = { this.props.device } />  }
 
                         </div>
                         <div className="modal-footer">
@@ -140,15 +140,16 @@ var ModalUpdate = React.createClass({
     handleSubmit(e) {
         e.preventDefault();
         $.ajax({
-            url: "/devices", method: "PUT",
-            data:{ device: {
+            url: "/devices/" + this.props.device.key_device, method: "PUT",
+            data:{
+                key: this.props.device.key_device,
                 name: this.state.name,
-                sleep_time: this.state.sleep_time,
-                work_time: this.state.work_time,
+                per_sleep: this.state.sleep_time,
+                per_work: this.state.work_time,
                 ai: this.state.ai,
                 light_start: this.state.light_start,
                 light_end: this.state.light_end
-            }}
+            }
         });
     },
     render() {
