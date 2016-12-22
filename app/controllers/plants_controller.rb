@@ -31,7 +31,7 @@ class PlantsController < ApplicationController
         if di.nil?
           render json: { status: 'ok' }
         else
-          render json: { status: 'ok', instructions: { per_sleep: di.per_sleep, per_work: di.per_work } }
+          render json: { status: 'ok', instructions: [di.per_sleep, di.per_work] }
         end
       else
         render json: { plant: @plant }
