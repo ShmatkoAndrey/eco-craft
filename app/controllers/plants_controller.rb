@@ -8,7 +8,6 @@ class PlantsController < ApplicationController
     else
       render json: { error: 'no key device!' }
     end
-
   end
 
   def update # Device.first.update(key_device: "6689305197")
@@ -47,6 +46,10 @@ class PlantsController < ApplicationController
 
   def destroy
     # Убирать id устройства
+  end
+
+  def time_now
+    render json: { time_now: DateTime.now.to_i }
   end
 
   private

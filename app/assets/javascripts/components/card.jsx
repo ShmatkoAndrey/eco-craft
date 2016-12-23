@@ -78,8 +78,14 @@ var Card = React.createClass({
 
         setInterval(
             function() {
-                var now = new Date();
-                var timer = parseInt(this.state.plant.next_time) - parseInt(now.getTime().toString().substring(0, 10));
+                var now = 0;
+                $.ajax({
+                    url: "/time_now/", method: "GET", async: false,
+                        success: function(data) {
+                            now = data.time_now;
+                        }
+                    });
+                var timer = parseInt(this.state.plant.next_time) - parseInt(now);
                 var p = 2 * timer/this.state.plant.period;
                 ctx.clearRect(0,0,200,200);
                 ctx.beginPath();
@@ -99,7 +105,7 @@ var Card = React.createClass({
                 var str_status = this.state.plant.state_type == "Work" ?  String.fromCharCode("0xe906") : String.fromCharCode("0xe901") ;
                 ctx.fillText(str_status, 100, 60);
 
-            }.bind(this), 500)
+            }.bind(this), 300)
     },
     render() {
         return(

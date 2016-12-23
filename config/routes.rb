@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   root 'application#start_page'
 
   resources :devices, only: [:index, :create, :update, :destroy]
-
   resources :plants, only: [:index, :create, :update, :destroy]
+
+  get 'time_now' => 'plants#time_now'
 
 end
