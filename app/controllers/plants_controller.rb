@@ -11,8 +11,9 @@ class PlantsController < ApplicationController
   end
 
   def update # Device.first.update(key_device: "6689305197")
-  if params[:key]
-      @plant = Device.where(key_device: params[:key]).first.plants.first
+    if params[:key]
+      @device = Device.where(key_device: params[:key]).first
+      @plant = @device.plants.last
 
       next_time = DateTime.now.to_i + ( params[:next_time].to_i - params[:date_time].to_i )
 
@@ -26,12 +27,7 @@ class PlantsController < ApplicationController
       )
       app_broadcast "/eco-craft/#{ @plant.device.key_device }/update", { plant: @plant }
       if params[:arduino] == 'true'
-        di = @plant.device.device_insts.last
-        if di.nil?
-          render json: { status: 'ok' }
-        else
-          render json: { status: 'ok', instructions: [di.per_sleep, di.per_work] }
-        end
+          render json: { status: 'ok', instructions: [@device.per_sleep, @device.per_work] }
       else
         render json: { plant: @plant }
       end

@@ -32,7 +32,7 @@ var Cards = React.createClass({
                     <div className="col-lg-5">
                         { cardsNode1 }
                     </div>
-                    <div className="col-lg-1"> </div>/
+                    <div className="col-lg-1"> </div>
                     <div className="col-lg-5">
                         { cardsNode2 }
                     </div>
@@ -122,6 +122,10 @@ var Card = React.createClass({
                     <div className = "table-info">
                         <table className = "devise-table">
                             <tr><td>  </td><td>Status device:</td><td> { this.state.plant.state_device }</td><td> <span className = "icon-leaf"> </span> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>Timer:</td><td> { this.props.device.per_work } - { this.props.device.per_sleep }</td><td> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>Light:</td><td> 6:00 - 23:00 </td><td> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>PH:</td><td> 5 PH </td><td> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>Water lvl:</td><td> high </td><td> </td></tr>
                             <tr><td> <span className = "icon-temp"> </span> </td><td>Temperature:</td><td> { this.state.plant.temperature }°C</td><td> </td></tr>
                             <tr><td> <span className = "icon-humidity"> </span> </td><td>Humidity:</td><td> { this.state.plant.humidity }%</td><td> </td></tr>
                         </table>

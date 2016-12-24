@@ -8,8 +8,7 @@ class DevicesController < ApplicationController
   def update
     if params[:key]
       @device = Device.where(key_device: params[:key]).first
-      @device.device_insts.create(per_sleep: params[:per_sleep], per_work: params[:per_work])
-      puts @device.device_insts.last.inspect
+      @device.update(per_sleep: params[:per_sleep], per_work: params[:per_work])
     end
   end
 

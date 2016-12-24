@@ -5,6 +5,8 @@ class CreateDevices < ActiveRecord::Migration[5.0]
       t.string :name
       t.integer :type_name
       t.string :key_device
+      t.integer  :per_sleep
+      t.integer  :per_work
 
       t.timestamps
     end

@@ -55,7 +55,7 @@ var Modal = React.createClass({
 });
 
 var ModalCreate = React.createClass({
-    getInitialState() { return { name: "", sleep_time: 0, work_time: 0, ai: false, light_start: 0, light_end: 0 } },
+    getInitialState() { return { name: "", sleep_time: 1, work_time: 1, ai: false, light_start: 0, light_end: 0 } },
     handleSubmit(e) {
         e.preventDefault();
         $.ajax({
@@ -136,7 +136,7 @@ var ModalCreate = React.createClass({
 });
 
 var ModalUpdate = React.createClass({
-    getInitialState() { return { sleep_time: 0, work_time: 0, ai: false, light_start: 0, light_end: 0 } },
+    getInitialState() { return { sleep_time: 1, work_time: 1, ai: false, light_start: 0, light_end: 0 } },
     handleSubmit(e) {
         e.preventDefault();
         $.ajax({
@@ -144,13 +144,69 @@ var ModalUpdate = React.createClass({
             data:{
                 key: this.props.device.key_device,
                 name: this.state.name,
-                per_sleep: this.state.sleep_time,
+                per_sleep: this.state.sleep_time * 60,
                 per_work: this.state.work_time,
                 ai: this.state.ai,
                 light_start: this.state.light_start,
                 light_end: this.state.light_end
             }
         });
+    },
+    setTimeSleep(t) {
+        if(this.state.sleep_time > 1 || t > 0 ) {
+            this.setState({sleep_time: this.state.sleep_time + t});
+        }
+    },
+    setTimeWork(t) {
+        if(this.state.work_time > 1 || t > 0 ) {
+            this.setState({work_time: this.state.work_time + t});
+        }
+    },
+    setLightStart(h) {
+        if (h > 0 && this.state.light_start >= 23) {
+            this.setState({light_start: 0});
+        } else if (h < 0 && this.state.light_start <= 0) {
+            this.setState({light_start: 23});
+        } else {
+            this.setState({light_start: this.state.light_start + h});
+        }
+    },
+    setLightEnd(h){
+        if (h > 0 && this.state.light_end >= 23) {
+            this.setState({light_end: 0});
+        } else if (h < 0 && this.state.light_end <= 0) {
+            this.setState({light_end: 23});
+        } else {
+            this.setState({light_end: this.state.light_end + h});
+        }
+    },
+    changeLightStart(e) {
+        if( e.target.value == parseInt(e.target.value)) {
+            if (e.target.value > 23) {
+                this.setState({light_start: 23 })
+            } else if (e.target.value < 0) {
+                this.setState({light_start: 0})
+            } else {
+                this.setState({light_start: parseInt(e.target.value) });
+            }
+        }
+        else {
+            this.setState({light_start: 0})
+        }
+    },
+    changeLightEnd(e) {
+       if( e.target.value == parseInt(e.target.value)) {
+           if (e.target.value > 23) {
+               this.setState({light_end: 23})
+           } else if (e.target.value < 0) {
+               this.setState({light_end: 0})
+           } else {
+               this.setState({light_end: parseInt(e.target.value) });
+           }
+       }
+        else {
+           this.setState({light_end: 0})
+       }
     },
     render() {
         return(
@@ -169,8 +225,14 @@ var ModalUpdate = React.createClass({
                         <tr>
                             <td> Sleep time: </td>
                             <td>
-                                <input name="sleep_time" type="text" placeholder="sleep time"
+                                <button className="btn btn-danger" onClick = { (e) => { this.setTimeSleep(-1) } }> &#10096; </button>
+                            </td>
+                            <td>
+                                <input name="sleep_time" type="text" placeholder="sleep time" className = "change_time_sm"
                                        onChange = { (e) => { this.setState({ sleep_time: e.target.value }) } } value = { this.state.sleep_time } />
+                            </td>
+                            <td>
+                                <button className="btn btn-danger" onClick = { (e) => { this.setTimeSleep(1) } }> &#10097; </button>
                             </td>
                             <td>Minutes</td>
                         </tr>
@@ -178,8 +240,14 @@ var ModalUpdate = React.createClass({
                         <tr>
                             <td> Work time: </td>
                             <td>
-                                <input name="work_time" type="text" placeholder="work time"
+                                <button className="btn btn-danger" onClick = { (e) => { this.setTimeWork(-1) } }> &#10096; </button>
+                            </td>
+                            <td>
+                                <input name="work_time" type="text" placeholder="work time" className = "change_time_sm"
                                        onChange = { (e) => { this.setState({ work_time: e.target.value }) } } value = { this.state.work_time } />
+                            </td>
+                            <td>
+                                <button className="btn btn-danger" onClick = { (e) => { this.setTimeWork(1) } }> &#10097; </button>
                             </td>
                             <td>Seconds</td>
                         </tr>
@@ -194,8 +262,14 @@ var ModalUpdate = React.createClass({
 
                         <tr>
                             <td> Light start: </td>
-                            <td><input name="sleep_time" type="text" placeholder="sleep time"
-                                       onChange = { (e) => { this.setState({ light_start: e.target.value }) } } value = { this.state.light_start } />
+                            <td>
+                                <button className="btn btn-danger" onClick = { (e) => { this.setLightStart(-1) } }> &#10096; </button>
+                            </td>
+                            <td><input name="sleep_time" type="text" placeholder="sleep time" className = "change_time_lg"
+                                       onChange = { this.changeLightStart } value = { this.state.light_start } />
+                            </td>
+                            <td>
+                                <button className="btn btn-danger" onClick = { (e) => { this.setLightStart(1) } }> &#10097; </button>
                             </td>
                             <td>Hour</td>
                         </tr>
@@ -203,8 +277,14 @@ var ModalUpdate = React.createClass({
                         <tr>
                             <td> Light end: </td>
                             <td>
-                                <input name="work_time" type="text" placeholder="work time"
-                                       onChange = { (e) => { this.setState({ light_end: e.target.value }) } } value = { this.state.light_end } />
+                                <button className="btn btn-danger" onClick = { (e) => { this.setLightEnd(-1) } }> &#10096; </button>
+                            </td>
+                            <td>
+                                <input name="work_time" type="text" placeholder="work time" className = "change_time_lg"
+                                       onChange = { this.changeLightEnd } value = { this.state.light_end } />
+                            </td>
+                            <td>
+                                <button className="btn btn-danger" onClick = { (e) => { this.setLightEnd(1) } }> &#10097; </button>
                             </td>
                             <td> Hour </td>
                         </tr>
