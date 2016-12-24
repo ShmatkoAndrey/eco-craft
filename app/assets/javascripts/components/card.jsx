@@ -53,7 +53,7 @@ var Card = React.createClass({
             url: '/plants', type: 'GET', async: false,
             data: { key: this.props.device.key_device },
             success: function(data) {
-                this.setState({ plant: data.plant, plant_val: data.plant_val });
+                this.setState({ plant: data.plant });
             }.bind(this)
         });
 
@@ -85,17 +85,17 @@ var Card = React.createClass({
 
         setInterval(
             function() {
-
-                if (this.state.plant_val) {
+                if (this.state.plant_val.next_time) {
                     var now = new Date();
                     var now_ = parseInt(now.getTime().toString().substring(0, 10)) + this.state.timer_def;
                     var timer = parseInt(this.state.plant_val.next_time) - parseInt(now_);
+                    timer = timer > 0 ? timer : 0;
                     var p = this.state.plant_val.period == "work" ? 2 * timer / this.state.plant.per_work : 2 * timer / this.state.plant.per_sleep;
                     ctx.clearRect(0, 0, 200, 200);
                     ctx.beginPath();
                     ctx.arc(100, 100, rad, 0, p * Math.PI, false);
                     ctx.lineWidth = 15;
-                    ctx.strokeStyle = 'green';
+                    ctx.strokeStyle = this.state.plant_val.period == "work" ? 'red' : 'green';
                     ctx.stroke();
                     ctx.fillStyle = "#000";
                     ctx.font = "italic 20pt Arial";
@@ -129,13 +129,15 @@ var Card = React.createClass({
                     </div>
                     <div className = "table-info">
                         <table className = "devise-table">
-                            <tr><td>  </td><td>Status device:</td><td> { this.props.device.state_device }</td><td> <span className = "icon-leaf"> </span> </td></tr>
-                            <tr><td> <span className = "icon-temp"> </span> </td><td>Timer:</td><td> { this.state.plant.per_work } - { this.state.plant.per_sleep }</td><td> </td></tr>
+                            <tr><td> <span className = "icon-leaf">  </span></td><td>Status device:</td><td> { this.props.device.state_device }</td><td> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>Time work:</td><td> { this.state.plant.per_work } Sec</td><td> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>Time sleep:</td><td> { this.state.plant.per_sleep/60 } Min</td><td> </td></tr>
                             <tr><td> <span className = "icon-temp"> </span> </td><td>Light:</td><td> { this.state.plant.light_start }:00 - { this.state.plant.light_end }:00 </td><td> </td></tr>
-                            <tr><td> <span className = "icon-temp"> </span> </td><td>PH:</td><td> 5 PH </td><td> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>PH:</td><td> { this.state.plant_val.ph } </td><td> </td></tr>
                             <tr><td> <span className = "icon-temp"> </span> </td><td>Water lvl:</td><td> high </td><td> </td></tr>
-                            <tr><td> <span className = "icon-temp"> </span> </td><td>Temperature:</td><td> { this.state.plant.temperature }°C</td><td> </td></tr>
-                            <tr><td> <span className = "icon-humidity"> </span> </td><td>Humidity:</td><td> { this.state.plant.humidity }%</td><td> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>Temperature:</td><td> { this.state.plant_val.temperature }°C</td><td> </td></tr>
+                            <tr><td> <span className = "icon-humidity"> </span> </td><td>Humidity:</td><td> { this.state.plant_val.humidity }%</td><td> </td></tr>
+                            <tr><td> <span className = "icon-humidity"> </span> </td><td>Humidity:</td><td> { this.state.plant_val.humidity }%</td><td> </td></tr>
                         </table>
                     </div>
                     <a onClick= { this.popup } className="btn btn-primary btn-settings-device"><span className = "icon-setings"> </span></a>

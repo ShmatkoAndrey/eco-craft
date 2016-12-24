@@ -39,7 +39,7 @@ var Modal = React.createClass({
                         {title}
                         <div className="modal-body">
 
-                            { this.state.type_action == 0 ? <ModalCreate /> : <ModalUpdate device = { this.props.device } />  }
+                            { this.state.type_action == 0 ? <ModalCreate /> : <ModalUpdate device = { this.props.device } plant = { this.props.plant } />  }
 
                         </div>
                         <div className="modal-footer">
@@ -62,73 +62,150 @@ var ModalCreate = React.createClass({
             url: "/devices", method: "POST",
             data:{ device: {
                 name: this.state.name,
-                sleep_time: this.state.sleep_time,
-                work_time: this.state.work_time,
-                ai: this.state.ai,
+                per_sleep: this.state.sleep_time * 60,
+                per_work: this.state.work_time,
+                hum_ai: this.state.ai,
                 light_start: this.state.light_start,
                 light_end: this.state.light_end
             }}
         });
     },
+    setTimeSleep(t) {
+        if (this.state.sleep_time > 1 || t > 0) {
+            this.setState({sleep_time: this.state.sleep_time + t});
+        }
+    },
+    setTimeWork(t) {
+        if (this.state.work_time > 1 || t > 0) {
+            this.setState({work_time: this.state.work_time + t});
+        }
+    },
+    setLightStart(h) {
+        if (h > 0 && this.state.light_start >= 23) {
+            this.setState({light_start: 0});
+        } else if (h < 0 && this.state.light_start <= 0) {
+            this.setState({light_start: 23});
+        } else {
+            this.setState({light_start: this.state.light_start + h});
+        }
+    },
+    setLightEnd(h){
+        if (h > 0 && this.state.light_end >= 23) {
+            this.setState({light_end: 0});
+        } else if (h < 0 && this.state.light_end <= 0) {
+            this.setState({light_end: 23});
+        } else {
+            this.setState({light_end: this.state.light_end + h});
+        }
+    },
+    changeLightStart(e) {
+        if (e.target.value == parseInt(e.target.value)) {
+            if (e.target.value > 23) {
+                this.setState({light_start: 23})
+            } else if (e.target.value < 0) {
+                this.setState({light_start: 0})
+            } else {
+                this.setState({light_start: parseInt(e.target.value)});
+            }
+        }
+        else {
+            this.setState({light_start: 0})
+        }
+    },
+    changeLightEnd(e) {
+        if (e.target.value == parseInt(e.target.value)) {
+            if (e.target.value > 23) {
+                this.setState({light_end: 23})
+            } else if (e.target.value < 0) {
+                this.setState({light_end: 0})
+            } else {
+                this.setState({light_end: parseInt(e.target.value)});
+            }
+        }
+        else {
+            this.setState({light_end: 0})
+        }
+    },
     render() {
-        return(
-            <div id = "modal-create">
-                <form onSubmit = { this.handleSubmit } >
-                    <table>
-                        <tr>
-                            <td> Name: </td>
-                            <td>
-                                <input name="name" type="text" placeholder="name device"
-                                onChange = { (e) => { this.setState({ name: e.target.value }) } } />
-                            </td>
-                            <td> </td>
-                        </tr>
+        return (
+            <div id="modal-update">
+                <form onSubmit={ this.handleSubmit }>
 
-                        <tr>
-                            <td> Sleep time: </td>
-                            <td>
-                                <input name="sleep_time" type="text" placeholder="sleep time"
-                                   onChange = { (e) => { this.setState({ sleep_time: e.target.value }) } } value = { this.state.sleep_time } />
-                            </td>
-                            <td>Minutes</td>
-                        </tr>
-
-                        <tr>
-                            <td> Work time: </td>
-                            <td>
-                                <input name="work_time" type="text" placeholder="work time"
-                                   onChange = { (e) => { this.setState({ work_time: e.target.value }) } } value = { this.state.work_time } />
-                            </td>
-                            <td>Seconds</td>
-                        </tr>
-
-                        <tr>
-                            <td> </td>
-                            <td>
-                                <input type="checkbox" name="onOff" onClick = { () => { this.setState({ ai: !this.state.ai }) } } value = { this.state.sleep_time } />
-                            </td>
-                            <td> Использовать зависимость от условий </td>
-                        </tr>
-
-                        <tr>
-                        <td> Light start: </td>
-                        <td><input name="sleep_time" type="text" placeholder="sleep time"
-                               onChange = { (e) => { this.setState({ light_start: e.target.value }) } } value = { this.state.light_start } />
-                        </td>
-                            <td>Hour</td>
-                        </tr>
-
-                        <tr>
-                            <td> Light end: </td>
-                            <td>
-                                <input name="work_time" type="text" placeholder="work time"
-                                   onChange = { (e) => { this.setState({ light_end: e.target.value }) } } value = { this.state.light_end } />
-                            </td>
-                            <td> Hour </td>
-                        </tr>
-                    </table>
+                    <div className="settings-name">Name:</div>
+                    <div className="settings-block">
+                        <input name="name" type="text" placeholder="name device"
+                               onChange={ (e) => { this.setState({ name: e.target.value }) } }
+                               value={ this.state.name }/>
+                    </div>
                     <br />
-                    <button className="btn btn-info " type = "submit" > Сохранить </button>
+
+                    <div className="settings-name">Sleep time:</div>
+
+                    <div className="settings-block">
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setTimeSleep(-1) } }> &#10096; </div>
+
+                        <input name="sleep_time" type="text" placeholder="sleep time" className="change_time_sm"
+                               onChange={ (e) => { this.setState({ sleep_time: e.target.value }) } }
+                               value={ this.state.sleep_time }/>
+
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setTimeSleep(1) } }> &#10097; </div>
+
+                        <div className="settings-type">Minutes</div>
+                    </div>
+                    <br />
+
+                    <div className="settings-name">Work time:</div>
+                    <div className="settings-block">
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setTimeWork(-1) } }> &#10096; </div>
+
+                        <input name="work_time" type="text" placeholder="work time" className="change_time_sm"
+                               onChange={ (e) => { this.setState({ work_time: e.target.value }) } }
+                               value={ this.state.work_time }/>
+
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setTimeWork(1) } }> &#10097; </div>
+
+                        <div className="settings-type">Seconds</div>
+                    </div>
+                    <br />
+                    <div className="settings-name">Light start:</div>
+                    <div className="settings-block">
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setLightStart(-1) } }> &#10096; </div>
+
+                        <input name="sleep_time" type="text" placeholder="sleep time" className="change_time_sm"
+                               onChange={ this.changeLightStart } value={ this.state.light_start }/>
+
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setLightStart(1) } }> &#10097; </div>
+
+                        <div className="settings-type">Hour</div>
+                    </div>
+                    <br />
+                    <div className="settings-name">Light end:</div>
+                    <div className="settings-block">
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setLightEnd(-1) } }> &#10096; </div>
+
+                        <input name="work_time" type="text" placeholder="work time" className="change_time_sm"
+                               onChange={ this.changeLightEnd } value={ this.state.light_end }/>
+
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setLightEnd(1) } }> &#10097; </div>
+
+                        <div className="settings-type">Hour</div>
+                    </div>
+                    <br />
+                    <div className="settings-block">
+                        <input type="checkbox" name="onOff" onClick={ () => { this.setState({ ai: !this.state.ai }) } }
+                               value={ this.state.sleep_time }/>
+                        Использовать зависимость от условий
+                    </div>
+                    <br />
+                    <button className="btn btn-info " type="submit"> Сохранить</button>
                 </form>
             </div>
         )
@@ -137,20 +214,22 @@ var ModalCreate = React.createClass({
 
 var ModalUpdate = React.createClass({
     getInitialState() {
-        return {sleep_time: 1, work_time: 1, ai: false, light_start: 0, light_end: 0}
+        return { name: this.props.device.name, sleep_time: this.props.plant.per_sleep/60, work_time: this.props.plant.per_work, ai: false, light_start: this.props.plant.light_start, light_end: this.props.plant.light_end}
     },
     handleSubmit(e) {
         e.preventDefault();
         $.ajax({
             url: "/devices/" + this.props.device.key_device, method: "PUT",
             data: {
-                key: this.props.device.key_device,
-                name: this.state.name,
-                per_sleep: this.state.sleep_time * 60,
-                per_work: this.state.work_time,
-                ai: this.state.ai,
-                light_start: this.state.light_start,
-                light_end: this.state.light_end
+                device: {
+                    key: this.props.device.key_device,
+                    name: this.state.name,
+                    per_sleep: this.state.sleep_time * 60,
+                    per_work: this.state.work_time,
+                    hum_ai: this.state.ai,
+                    light_start: this.state.light_start,
+                    light_end: this.state.light_end
+                }
             }
         });
     },
@@ -218,22 +297,23 @@ var ModalUpdate = React.createClass({
                     <div className="settings-name">Name:</div>
                     <div className="settings-block">
                         <input name="name" type="text" placeholder="name device"
-                               onChange={ (e) => { this.setState({ name: e.target.value }) } }/>
+                               onChange={ (e) => { this.setState({ name: e.target.value }) } }
+                               value={ this.state.name }/>
                     </div>
                     <br />
 
                     <div className="settings-name">Sleep time:</div>
 
                     <div className="settings-block">
-                        <button className="btn btn-danger"
-                                onClick={ (e) => { this.setTimeSleep(-1) } }> &#10096; </button>
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setTimeSleep(-1) } }> &#10096; </div>
 
                         <input name="sleep_time" type="text" placeholder="sleep time" className="change_time_sm"
                                onChange={ (e) => { this.setState({ sleep_time: e.target.value }) } }
                                value={ this.state.sleep_time }/>
 
-                        <button className="btn btn-danger"
-                                onClick={ (e) => { this.setTimeSleep(1) } }> &#10097; </button>
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setTimeSleep(1) } }> &#10097; </div>
 
                         <div className="settings-type">Minutes</div>
                     </div>
@@ -241,51 +321,52 @@ var ModalUpdate = React.createClass({
 
                     <div className="settings-name">Work time:</div>
                     <div className="settings-block">
-                        <button className="btn btn-danger"
-                                onClick={ (e) => { this.setTimeWork(-1) } }> &#10096; </button>
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setTimeWork(-1) } }> &#10096; </div>
 
                         <input name="work_time" type="text" placeholder="work time" className="change_time_sm"
                                onChange={ (e) => { this.setState({ work_time: e.target.value }) } }
                                value={ this.state.work_time }/>
 
-                        <button className="btn btn-danger"
-                                onClick={ (e) => { this.setTimeWork(1) } }> &#10097; </button>
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setTimeWork(1) } }> &#10097; </div>
 
                         <div className="settings-type">Seconds</div>
                     </div>
                     <br />
                     <div className="settings-name">Light start:</div>
                     <div className="settings-block">
-                        <button className="btn btn-danger"
-                                onClick={ (e) => { this.setLightStart(-1) } }> &#10096; </button>
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setLightStart(-1) } }> &#10096; </div>
 
                         <input name="sleep_time" type="text" placeholder="sleep time" className="change_time_sm"
                                onChange={ this.changeLightStart } value={ this.state.light_start }/>
 
-                        <button className="btn btn-danger"
-                                onClick={ (e) => { this.setLightStart(1) } }> &#10097; </button>
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setLightStart(1) } }> &#10097; </div>
+
+                        <div className="settings-type">Hour</div>
+                    </div>
+                    <br />
+                        <div className="settings-name">Light end:</div>
+                        <div className="settings-block">
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setLightEnd(-1) } }> &#10096; </div>
+
+                        <input name="work_time" type="text" placeholder="work time" className="change_time_sm"
+                               onChange={ this.changeLightEnd } value={ this.state.light_end }/>
+
+                        <div className="btn btn-danger"
+                                onClick={ (e) => { this.setLightEnd(1) } }> &#10097; </div>
 
                         <div className="settings-type">Hour</div>
                     </div>
                     <br />
                     <div className="settings-block">
-                        <div className="settings-name">Light end:</div>
-
-                        <button className="btn btn-danger"
-                                onClick={ (e) => { this.setLightEnd(-1) } }> &#10096; </button>
-
-                        <input name="work_time" type="text" placeholder="work time" className="change_time_sm"
-                               onChange={ this.changeLightEnd } value={ this.state.light_end }/>
-
-                        <button className="btn btn-danger"
-                                onClick={ (e) => { this.setLightEnd(1) } }> &#10097; </button>
-
-                        <div className="settings-type">Hour</div>
+                        <input type="checkbox" name="onOff" onClick={ () => { this.setState({ ai: !this.state.ai }) } }
+                               value={ this.state.sleep_time }/>
+                        Использовать зависимость от условий
                     </div>
-                    <br />
-                    <input type="checkbox" name="onOff" onClick={ () => { this.setState({ ai: !this.state.ai }) } }
-                           value={ this.state.sleep_time }/>
-                    Использовать зависимость от условий
                     <br />
                     <button className="btn btn-info " type="submit"> Сохранить</button>
                 </form>

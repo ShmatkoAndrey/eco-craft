@@ -71,6 +71,9 @@
 
 .timer {
   display: inline-block;
+  position: relative;
+  float: left;
+  top: 50px;
 }
 
 .devise-table {

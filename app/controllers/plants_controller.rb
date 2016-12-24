@@ -3,7 +3,8 @@ class PlantsController < ApplicationController
 
   def index
     if params[:key]
-      @plant = Device.where(key_device: params[:key]).first.plants.first
+      @device = Device.where(key_device: params[:key]).first
+      @plant = @device.plants.last
       render json: { plant: @plant }
     else
       render json: { error: 'no key device!' }
