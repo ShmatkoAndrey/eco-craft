@@ -90,12 +90,12 @@ var Card = React.createClass({
                     var now_ = parseInt(now.getTime().toString().substring(0, 10)) + this.state.timer_def;
                     var timer = parseInt(this.state.plant_val.next_time) - parseInt(now_);
                     timer = timer > 0 ? timer : 0;
-                    var p = this.state.plant_val.period == "work" ? 2 * timer / this.state.plant.per_work : 2 * timer / this.state.plant.per_sleep;
+                    var p = this.state.plant_val.state_type == "work" ? 2 * timer / this.state.plant.per_work : 2 * timer / this.state.plant.per_sleep;
                     ctx.clearRect(0, 0, 200, 200);
                     ctx.beginPath();
                     ctx.arc(100, 100, rad, 0, p * Math.PI, false);
                     ctx.lineWidth = 15;
-                    ctx.strokeStyle = this.state.plant_val.period == "work" ? 'red' : 'green';
+                    ctx.strokeStyle = this.state.plant_val.state_type == "work" ? 'red' : 'green';
                     ctx.stroke();
                     ctx.fillStyle = "#000";
                     ctx.font = "italic 20pt Arial";
