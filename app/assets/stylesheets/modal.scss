@@ -6,13 +6,29 @@
 
 .change_time_sm {
   width: 50px;
-  font-size: 24px;
+  font-size: 18px;
   text-align: center;
 }
 
 .change_time_lg {
   width: 150px;
-  font-size: 24px;
+  font-size: 18px;
   text-align: center;
 }
 
+.settings-block {
+  display: inline-block;
+  margin: 10px;
+  vertical-align: middle;
+}
+
+.settings-name {
+  display: inline-block;
+  margin: 10px;
+  width: 150px;
+}
+
+.settings-type {
+  display: inline-block;
+  margin: 10px;
+}
