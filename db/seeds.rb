@@ -1,7 +1,7 @@
 User.create email:'shmatuan@gmail.com', password: '111111', password_confirmation: '111111'
 
-#10.times { Device.create(name: Faker::Internet.user_name, user_id: 1, type_name: 'home_edition') }
+PlantType.create name: 'Кресс салат', per_sleep: 1200, per_work: 10, light_start: 6, light_end: 20
 
-Device.create name: 'MyFirstDevice', user_id: 1
+Device.create name: 'MyFirstDevice', user_id: 1, key_device: '6689305197', light: true
 
-Plant.create device_id: 1, humidity: 0, temperature: 0
+Plant.create device_id: 1, per_sleep: 1200, per_work: 10, light_start: 6, light_end: 20, plant_type_id: 1

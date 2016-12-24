@@ -10,38 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220154207) do
-
-  create_table "device_insts", force: :cascade do |t|
-    t.integer  "device_id"
-    t.integer  "per_sleep"
-    t.integer  "per_work"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 20161224130312) do
 
   create_table "devices", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name"
-    t.integer  "type_name"
     t.string   "key_device"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "state_device"
+    t.boolean  "light"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "plant_types", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "per_work"
+    t.integer  "per_sleep"
+    t.integer  "light_start"
+    t.integer  "light_end"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "plant_vals", force: :cascade do |t|
+    t.integer  "plant_id"
+    t.string   "state_type"
+    t.string   "next_time"
+    t.integer  "temperature"
+    t.integer  "humidity"
+    t.float    "ph"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "plants", force: :cascade do |t|
     t.integer  "device_id"
-    t.integer  "type_plant_id"
-    t.string   "state_device"
-    t.string   "state_type"
-    t.string   "next_time"
-    t.string   "next_time_type"
-    t.integer  "period"
-    t.integer  "server_time"
-    t.integer  "temperature"
-    t.integer  "humidity"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "plant_type_id"
+    t.integer  "per_sleep"
+    t.integer  "per_work"
+    t.integer  "light_start"
+    t.integer  "light_end"
+    t.boolean  "hum_ai"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "users", force: :cascade do |t|

@@ -46,14 +46,22 @@ var Cards = React.createClass({
 var Card = React.createClass({
     getInitialState() {
         this.webSocket();
-        return { plant: Object() }
+        return { plant: Object(), plant_val: Object(), timer_def: 0 }
     },
     componentDidMount: function() {
         $.ajax({
             url: '/plants', type: 'GET', async: false,
             data: { key: this.props.device.key_device },
             success: function(data) {
-                this.setState({ plant: data.plant });
+                this.setState({ plant: data.plant, plant_val: data.plant_val });
+            }.bind(this)
+        });
+
+        $.ajax({
+            url: "/time_now/", method: "GET", async: false,
+            success: function(data) {
+                var now = new Date();
+                this.setState({ timer_def: parseInt(now.getTime().toString().substring(0, 10)) - data.time_now });
             }.bind(this)
         });
 
@@ -65,8 +73,8 @@ var Card = React.createClass({
         var faye = new Faye.Client('https://socketmiamitalks.herokuapp.com/faye');
 
         faye.subscribe("/eco-craft/" + this.props.device.key_device + "/update", function(data) {
-            console.log(data.plant);
-            this.setState( { plant: data.plant } );
+            console.log(data.plant_val);
+            this.setState( { plant: data.plant, plant_val: data.plant_val } );
         }.bind(this));
     },
     timeInterval() {
@@ -78,15 +86,10 @@ var Card = React.createClass({
 
         setInterval(
             function() {
-                var now = 0;
-                $.ajax({
-                    url: "/time_now/", method: "GET", async: false,
-                        success: function(data) {
-                            now = data.time_now;
-                        }
-                    });
-                var timer = parseInt(this.state.plant.next_time) - parseInt(now);
-                var p = 2 * timer/this.state.plant.period;
+                var now = new Date();
+                var now_ = parseInt(now.getTime().toString().substring(0, 10)) + this.state.timer_def;
+                var timer = parseInt(this.state.plant_val.next_time) - parseInt(now_);
+                var p = this.state.plant_val.period == "work" ? 2 * timer/this.state.plant.per_work : 2 * timer/this.state.plant.per_sleep;
                 ctx.clearRect(0,0,200,200);
                 ctx.beginPath();
                 ctx.arc(100, 100, rad, 0, p * Math.PI, false);
@@ -102,7 +105,7 @@ var Card = React.createClass({
                 str += timer%60 < 10 ? "0" + timer%60 : timer%60;
                 ctx.fillText(str, 100, 100);
                 ctx.font = "20pt icomoon";
-                var str_status = this.state.plant.state_type == "Work" ?  String.fromCharCode("0xe906") : String.fromCharCode("0xe901") ;
+                var str_status = this.state.plant_val.state_type == "work" ?  String.fromCharCode("0xe906") : String.fromCharCode("0xe901") ;
                 ctx.fillText(str_status, 100, 60);
 
             }.bind(this), 300)
@@ -121,9 +124,9 @@ var Card = React.createClass({
                     </div>
                     <div className = "table-info">
                         <table className = "devise-table">
-                            <tr><td>  </td><td>Status device:</td><td> { this.state.plant.state_device }</td><td> <span className = "icon-leaf"> </span> </td></tr>
-                            <tr><td> <span className = "icon-temp"> </span> </td><td>Timer:</td><td> { this.props.device.per_work } - { this.props.device.per_sleep }</td><td> </td></tr>
-                            <tr><td> <span className = "icon-temp"> </span> </td><td>Light:</td><td> 6:00 - 23:00 </td><td> </td></tr>
+                            <tr><td>  </td><td>Status device:</td><td> { this.props.device.state_device }</td><td> <span className = "icon-leaf"> </span> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>Timer:</td><td> { this.state.plant.per_work } - { this.state.plant.per_sleep }</td><td> </td></tr>
+                            <tr><td> <span className = "icon-temp"> </span> </td><td>Light:</td><td> { this.state.plant.light_start }:00 - { this.state.plant.light_end }:00 </td><td> </td></tr>
                             <tr><td> <span className = "icon-temp"> </span> </td><td>PH:</td><td> 5 PH </td><td> </td></tr>
                             <tr><td> <span className = "icon-temp"> </span> </td><td>Water lvl:</td><td> high </td><td> </td></tr>
                             <tr><td> <span className = "icon-temp"> </span> </td><td>Temperature:</td><td> { this.state.plant.temperature }°C</td><td> </td></tr>
@@ -131,7 +134,7 @@ var Card = React.createClass({
                         </table>
                     </div>
                     <a onClick= { this.popup } className="btn btn-primary btn-settings-device"><span className = "icon-setings"> </span></a>
-                    <Modal ref="modal" action_title = "Сохранить" device = { this.props.device }  />
+                    <Modal ref="modal" action_title = "Сохранить" device = { this.props.device } plant = { this.state.plant }  />
                 </div>
             </div>
         )

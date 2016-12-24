@@ -17,19 +17,18 @@ class PlantsController < ApplicationController
 
       next_time = DateTime.now.to_i + ( params[:next_time].to_i - params[:date_time].to_i )
 
-      @plant.update(
+      @plant_val =  @plant.plant_vals.create(
           temperature: params[:temperature],
           humidity: params[:humidity],
+          ph: 5.2,
           state_type: params[:state_type],
           next_time: next_time,
-          next_time_type: params[:next_time_type],
-          period: params[:period]
       )
-      app_broadcast "/eco-craft/#{ @plant.device.key_device }/update", { plant: @plant }
+      app_broadcast "/eco-craft/#{ @plant.device.key_device }/update", {plant: @plant, plant_val: @plant_val }
       if params[:arduino] == 'true'
-          render json: { status: 'ok', instructions: [@device.per_sleep, @device.per_work] }
+          render json: { status: 'ok', instructions: [@plant.per_sleep, @plant.per_work] }
       else
-        render json: { plant: @plant }
+        render json: { plant_val: @plant_val }
       end
     else
       render json: { error: 'no key device!' }
