@@ -24,11 +24,11 @@ class PlantsController < ApplicationController
           state_type: params[:state_type],
           next_time: next_time,
       )
-      app_broadcast "/eco-craft/#{ @plant.device.key_device }/update", {plant: @plant, plant_val: @plant_val }
+      app_broadcast "/eco-craft/#{ @plant.device.key_device }/update", { plant: @plant, plant_val: @plant_val }
       if params[:arduino] == 'true'
-          render json: { status: 'ok', instructions: [@plant.per_sleep, @plant.per_work] }
+          render json: { status: 'ok', instructions: [@plant.per_sleep, @plant.per_work, @plant.light_start, @plant.light_end ] }
       else
-        render json: { plant_val: @plant_val }
+        render json: { plant: @plant, plant_val: @plant_val }
       end
     else
       render json: { error: 'no key device!' }

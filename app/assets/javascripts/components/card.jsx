@@ -78,36 +78,41 @@ var Card = React.createClass({
         }.bind(this));
     },
     timeInterval() {
-        var color = "red";
         var tmr = this.refs.timer,
             ctx = tmr.getContext('2d');
-        ctx.fillStyle = color;
+        ctx.fillStyle = "red";
         var rad = 80;
 
         setInterval(
             function() {
-                var now = new Date();
-                var now_ = parseInt(now.getTime().toString().substring(0, 10)) + this.state.timer_def;
-                var timer = parseInt(this.state.plant_val.next_time) - parseInt(now_);
-                var p = this.state.plant_val.period == "work" ? 2 * timer/this.state.plant.per_work : 2 * timer/this.state.plant.per_sleep;
-                ctx.clearRect(0,0,200,200);
-                ctx.beginPath();
-                ctx.arc(100, 100, rad, 0, p * Math.PI, false);
-                ctx.lineWidth = 15;
-                ctx.strokeStyle = 'green';
-                ctx.stroke();
-                ctx.fillStyle = "#000";
-                ctx.font = "italic 20pt Arial";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                var str = parseInt(timer/60%60) < 10 ? "0" + parseInt(timer/60%60) : parseInt(timer/60%60);
-                str += ":" ;
-                str += timer%60 < 10 ? "0" + timer%60 : timer%60;
-                ctx.fillText(str, 100, 100);
-                ctx.font = "20pt icomoon";
-                var str_status = this.state.plant_val.state_type == "work" ?  String.fromCharCode("0xe906") : String.fromCharCode("0xe901") ;
-                ctx.fillText(str_status, 100, 60);
 
+                if (this.state.plant_val) {
+                    var now = new Date();
+                    var now_ = parseInt(now.getTime().toString().substring(0, 10)) + this.state.timer_def;
+                    var timer = parseInt(this.state.plant_val.next_time) - parseInt(now_);
+                    var p = this.state.plant_val.period == "work" ? 2 * timer / this.state.plant.per_work : 2 * timer / this.state.plant.per_sleep;
+                    ctx.clearRect(0, 0, 200, 200);
+                    ctx.beginPath();
+                    ctx.arc(100, 100, rad, 0, p * Math.PI, false);
+                    ctx.lineWidth = 15;
+                    ctx.strokeStyle = 'green';
+                    ctx.stroke();
+                    ctx.fillStyle = "#000";
+                    ctx.font = "italic 20pt Arial";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    var str = parseInt(timer / 60 % 60) < 10 ? "0" + parseInt(timer / 60 % 60) : parseInt(timer / 60 % 60);
+                    str += ":";
+                    str += timer % 60 < 10 ? "0" + timer % 60 : timer % 60;
+                    ctx.font = "20pt icomoon";
+                    var str_status = this.state.plant_val.state_type == "work" ? String.fromCharCode("0xe906") : String.fromCharCode("0xe901");
+                    ctx.fillText(str_status, 100, 60);
+                    ctx.fillText(str, 100, 100);
+                }
+                else {
+                    ctx.font = "italic 16pt Arial";
+                    ctx.fillText("Connect", 75, 100);
+                }
             }.bind(this), 300)
     },
     render() {
