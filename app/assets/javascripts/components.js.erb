@@ -1,0 +1,8 @@
+var faye = "";
+<% if Rails.env.development? %>
+faye = new Faye.Client('http://localhost:9292/faye'); // new Faye.Client('http://' + window.location.hostname + ':9292/faye');
+<% else %>
+faye = new Faye.Client('https://socketmiamitalks.herokuapp.com/faye');
+<% end %>
+
+//= require_tree ./components

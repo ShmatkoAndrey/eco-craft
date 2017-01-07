@@ -31,6 +31,7 @@ gem 'thin'
 gem 'bootstrap-sass'
 gem 'faker'
 gem 'react-rails'
+gem 'faye' # rackup faye.ru -s thin -E production
 
 gem 'devise'
 

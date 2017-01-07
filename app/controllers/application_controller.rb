@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
     render 'layouts/application'
   end
 
-  def app_broadcast(channel, hash)
+  def app_broadcast(channel, hash) # rackup faye.ru -s thin -E production
     message = {:channel => channel, :data => hash, :ext => {:auth_token => 'seed'}}
-    uri = URI.parse('http://socketmiamitalks.herokuapp.com/faye')
+    uri = Rails.env.development? ? URI.parse("http://#{ request.host }:9292/faye") : URI.parse('http://socketmiamitalks.herokuapp.com/faye')
     Net::HTTP.post_form(uri, :message => message.to_json)
   end
 

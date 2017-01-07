@@ -15,6 +15,6 @@
 //= require bootstrap-sprockets
 //= require react
 //= require react_ujs
-//= require components
 //= require faye
+//= require components.js.erb
 //= require_tree .

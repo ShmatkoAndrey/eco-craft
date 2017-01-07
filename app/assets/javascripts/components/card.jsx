@@ -70,8 +70,6 @@ var Card = React.createClass({
     modal: function () { return this.refs.modal; },
     popup: function () { this.refs.modal.open("Настройки", 1); },
     webSocket: function() {
-        var faye = new Faye.Client('https://socketmiamitalks.herokuapp.com/faye');
-
         faye.subscribe("/eco-craft/" + this.props.device.key_device + "/update", function(data) {
             console.log(data.plant_val);
             this.setState( { plant: data.plant, plant_val: data.plant_val } );
@@ -136,7 +134,6 @@ var Card = React.createClass({
                             <tr><td> <span className = "icon-temp"> </span> </td><td>PH:</td><td> { this.state.plant_val.ph } </td><td> </td></tr>
                             <tr><td> <span className = "icon-temp"> </span> </td><td>Water lvl:</td><td> high </td><td> </td></tr>
                             <tr><td> <span className = "icon-temp"> </span> </td><td>Temperature:</td><td> { this.state.plant_val.temperature }°C</td><td> </td></tr>
-                            <tr><td> <span className = "icon-humidity"> </span> </td><td>Humidity:</td><td> { this.state.plant_val.humidity }%</td><td> </td></tr>
                             <tr><td> <span className = "icon-humidity"> </span> </td><td>Humidity:</td><td> { this.state.plant_val.humidity }%</td><td> </td></tr>
                         </table>
                     </div>
