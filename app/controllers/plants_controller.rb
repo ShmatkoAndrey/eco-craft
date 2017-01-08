@@ -29,7 +29,7 @@ class PlantsController < ApplicationController
 # $.ajax({ url: "http://192.168.1.103:3000/plants/1?key=6689305197&temperature=10&humidity=12&state_type=sleep&next_time=1483786448&date_time=1483785448", method: "PUT", async: false });
       app_broadcast "/eco-craft/#{ @plant.device.key_device }/update", { plant: @plant, plant_val: @plant_val }
       if params[:arduino] == 'true'
-          render json: { status: 'ok', instructions: [@plant.per_sleep, @plant.per_work, @plant.light_start, @plant.light_end ] }
+          render json: { info: [@plant.per_sleep, @plant.per_work, @plant.light_start, @plant.light_end ] }
       else
         render json: { plant: @plant, plant_val: @plant_val }
       end
