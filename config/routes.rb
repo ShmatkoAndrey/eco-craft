@@ -14,4 +14,6 @@ Rails.application.routes.draw do
 
   get 'time_now' => 'plants#time_now'
 
+  resources :plant_types
+
 end

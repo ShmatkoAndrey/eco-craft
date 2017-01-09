@@ -1,13 +1,23 @@
 var Modal = React.createClass({
     getInitialState: function () {
+        var pt;
+        $.ajax({
+            url: "/plant_types/", method: "GET", async: false,
+            success: function(data) {
+                pt = data.plant_types;
+            }
+        });
+
         return {
             visible: false,
             cancel_title: this.props.cancel_title ? this.props.cancel_title : 'Отмена',
             action_title: this.props.action_title ? this.props.action_title : 'ОК',
             title: '',
-            type_action: 0 //0 - create; 1 - update
+            type_action: 0, //0 - create; 1 - update
+            plant_types: pt
         };
     },
+
     close:  function () { this.setState({ visible: false }, function () { return this.promise.reject(); }); },
     action: function () { this.setState({ visible: false }, function () { return this.promise.resolve(); }); },
     open: function (title, type_action) {
@@ -39,7 +49,7 @@ var Modal = React.createClass({
                         {title}
                         <div className="modal-body">
 
-                            { this.state.type_action == 0 ? <ModalCreate /> : <ModalUpdate device = { this.props.device } plant = { this.props.plant } />  }
+                            { this.state.type_action == 0 ? <ModalCreate plant_types =  { this.state.plant_types } /> : <ModalUpdate plant_types =  { this.state.plant_types } device = { this.props.device } plant = { this.props.plant } />  }
 
                         </div>
                         <div className="modal-footer">
@@ -55,12 +65,13 @@ var Modal = React.createClass({
 });
 
 var ModalCreate = React.createClass({
-    getInitialState() { return { name: "", sleep_time: 1, work_time: 1, ai: false, light_start: 0, light_end: 0 } },
+    getInitialState() { return { name: "", sleep_time: 0, work_time: 0, ai: false, light_start: 0, light_end: 0, plant_type_id: 1 } },
     handleSubmit(e) {
         e.preventDefault();
         $.ajax({
             url: "/devices", method: "POST",
             data:{ device: {
+                plant_type_id: this.state.plant_type_id,
                 name: this.state.name,
                 per_sleep: this.state.sleep_time * 60,
                 per_work: this.state.work_time,
@@ -126,10 +137,31 @@ var ModalCreate = React.createClass({
             this.setState({light_end: 0})
         }
     },
+    changePlantType(pt) {
+        this.setState({ sleep_time: pt.per_sleep/60, work_time: pt.per_work,
+            light_start: pt.light_start, light_end: pt.light_end,  plant_type_id: pt.id });
+    },
     render() {
+        var plantTypes = this.props.plant_types.map(function(pt, i) {
+            return <li onClick = { () => { this.changePlantType(pt) }  }> { pt.name } </li>
+        }.bind(this));
+
         return (
             <div id="modal-update">
                 <form onSubmit={ this.handleSubmit }>
+
+                    <div className="settings-name">Plant type:</div>
+                    <div className="settings-block">
+                        <div className="dropdown">
+                            <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                { this.props.plant_types[this.state.plant_type_id - 1].name }
+                                <span className="caret"> </span>
+                            </button>
+                            <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                { plantTypes }
+                            </ul>
+                        </div>
+                    </div>
 
                     <div className="settings-name">Name:</div>
                     <div className="settings-block">
@@ -214,7 +246,8 @@ var ModalCreate = React.createClass({
 
 var ModalUpdate = React.createClass({
     getInitialState() {
-        return { name: this.props.device.name, sleep_time: this.props.plant.per_sleep/60, work_time: this.props.plant.per_work, ai: false, light_start: this.props.plant.light_start, light_end: this.props.plant.light_end}
+        return { name: this.props.device.name, sleep_time: this.props.plant.per_sleep/60, work_time: this.props.plant.per_work,
+            ai: false, light_start: this.props.plant.light_start, light_end: this.props.plant.light_end, plant_type_id: this.props.plant.plant_type_id}
     },
     handleSubmit(e) {
         e.preventDefault();
@@ -222,6 +255,7 @@ var ModalUpdate = React.createClass({
             url: "/devices/" + this.props.device.key_device, method: "PUT",
             data: {
                 device: {
+                    plant_type_id: this.state.plant_type_id,
                     key: this.props.device.key_device,
                     name: this.state.name,
                     per_sleep: this.state.sleep_time * 60,
@@ -289,10 +323,32 @@ var ModalUpdate = React.createClass({
             this.setState({light_end: 0})
         }
     },
+    changePlantType(pt) {
+        this.setState({ sleep_time: pt.per_sleep/60, work_time: pt.per_work,
+            light_start: pt.light_start, light_end: pt.light_end,  plant_type_id: pt.id });
+
+    },
     render() {
+        var plantTypes = this.props.plant_types.map(function(pt, i) {
+            return <li onClick = { () => { this.changePlantType(pt) }  }> { pt.name } </li>
+        }.bind(this));
+
         return (
             <div id="modal-update">
                 <form onSubmit={ this.handleSubmit }>
+
+                    <div className="settings-name">Plant type:</div>
+                    <div className="settings-block">
+                        <div className="dropdown">
+                            <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                { this.props.plant_types[this.state.plant_type_id - 1].name }
+                                <span className="caret"> </span>
+                            </button>
+                            <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                { plantTypes }
+                            </ul>
+                        </div>
+                    </div>
 
                     <div className="settings-name">Name:</div>
                     <div className="settings-block">
